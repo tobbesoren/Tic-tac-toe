@@ -24,19 +24,21 @@ public class PlayGrid {
     }
 
     public void setCell(int row, int column, String symbol) {
+        /* Sets the grid cell(row, column) to String symbol */
         grid.get(row).set(column, symbol);
     }
 
     public void printGrid() {
+        /* Prints the grid to the terminal, using printRow() and printLine()*/
         printLine();
         for(int row = 0; row < grid.get(0).size(); row++) {
             printRow(row);
             printLine();
         }
-
     }
 
    public void printRow(int row) {
+        /* Prints one row from the grid. Used by printGrid() */
         for(int column = 0; column < grid.get(row).size(); column++){
             System.out.print("|  " + grid.get(row).get(column) + "  ");
         }
@@ -44,6 +46,7 @@ public class PlayGrid {
    }
 
    public void printLine() {
+        /* Prints the lines in-between rows of the grid. Used by printGrid(). */
         for(int column = 0; column < grid.get(0).size(); column++) {
             System.out.print("+-----");
         }
