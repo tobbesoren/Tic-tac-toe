@@ -52,4 +52,8 @@ public class PlayGrid {
         }
        System.out.print("+\n");
    }
+
+    public ArrayList<ArrayList<String>> getGrid() {
+        return grid;
+    }
 }
