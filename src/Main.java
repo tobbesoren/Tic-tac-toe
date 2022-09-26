@@ -1,6 +1,9 @@
 public class Main {
     public static void main(String[] args) {
-        PlayGrid myGrid = new PlayGrid(3);
-        System.out.println(myGrid.grid);
+        /* Testing to set up grid and adding a char to it.*/
+        PlayGrid myGrid = new PlayGrid(10);
+        myGrid.setCell(0,0,"x");
+        myGrid.printGrid();
+
     }
 }
