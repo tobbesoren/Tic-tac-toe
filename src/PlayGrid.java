@@ -18,7 +18,7 @@ public class PlayGrid {
         for(int row = 0; row < size; row++) {
             grid.add(new ArrayList<>());
             for(int column = 0; column < size; column++) {
-                grid.get(row).add("o");
+                grid.get(row).add(" ");
             }
         }
     }
