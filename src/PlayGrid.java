@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PlayGrid {
     /*
@@ -11,7 +13,7 @@ public class PlayGrid {
     +-----+-----+-----+
      */
     /*An ArrayList of ArrayLists of Strings holds the playing grid*/
-    ArrayList<ArrayList<String>> grid = new ArrayList<>();
+    private ArrayList<ArrayList<String>> grid = new ArrayList<>();
 
     public PlayGrid(int size) {
         /* Creates a size * size empty grid*/
@@ -26,6 +28,10 @@ public class PlayGrid {
     public void setCell(int row, int column, String symbol) {
         /* Sets the grid cell(row, column) to String symbol */
         grid.get(row).set(column, symbol);
+    }
+
+    public String getCell(int row, int column) {
+        return grid.get(row).get(column);
     }
 
     public void printGrid() {
@@ -53,7 +59,62 @@ public class PlayGrid {
        System.out.print("+\n");
    }
 
-    public ArrayList<ArrayList<String>> getGrid() {
-        return grid;
+    public boolean checkWin(Player player) {
+        int count = 1;
+        //System.out.println(Arrays.toString(player.getLastMove()) + getCell(player.getLastMove()[0]-1, player.getLastMove()[1]-1 ));
+        /* This method will check if the last move made the player win. Right now, it doesn't...*/
+
+        // Checking for vertical win
+        int row = player.getLastMove()[0];
+        int column = player.getLastMove()[1];
+
+        System.out.println(getCell(row, column));
+
+        for (int i = row - 2; i < row + 1; i++) {
+
+                try {
+                    // !
+                    //System.out.println(getCell(i, column) + " " + getCell(i + 1, column));
+
+                    if (getCell(i, column).equals(getCell(i + 1, column))) {
+                        count++;
+                        // !
+                        /*System.out.println("row: " + row + " column: " + player.getLastMove()[1]
+                                + " cell1: " + getCell(row - 1, player.getLastMove()[1] - 1) + "cell2" +
+                                getCell(row + 1, player.getLastMove()[1]));*/
+                    }
+                    System.out.println(count);
+                    if (count == 3) {
+                        return true;
+                    } else {
+                        count = 1;
+                    }
+                } catch(Exception e) {
+
+                }
+
+        }
+
+
+        /*for (int column = player.getLastMove()[1] - 2; column < player.getLastMove()[1] + 2; column++) {
+            System.out.println(column);
+            try {
+                if (getCell(player.getLastMove()[0], column) == getCell(player.getLastMove()[0], column + 1 )){
+                    count++;
+                    if (count == 3) {
+                        return true;
+                    }
+                } else {
+                    count = 0;
+                }
+            } catch(Exception e) {
+            }
+        }
+        return false;
+    }*/
+
+    //public ArrayList<ArrayList<String>> getGrid() {
+    //return grid;
+    return false;
     }
 }

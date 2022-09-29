@@ -14,8 +14,9 @@ public class Game {
     }
 
     public void makeMove(Player player) {
-        /* Lets a player make a move. Uses a static Scanner object to read input. Catches exceptions to prevent
-        the program from crashing if invalid input is given. */
+        /* Lets a player make a move. Uses a static Scanner object to read input as String.
+         Tries to convert String to array of ints. Catches NumberFormatException and
+         IndexOutOfBoundsException to prevent the program from crashing if invalid input is given. */
 
         System.out.println(player.getName() + ", make your move!(rowNumber columnNumber)");
 
@@ -29,17 +30,21 @@ public class Game {
                 for(int i = 0; i < coordinatesString.length; i++) {
                     coordinates[i] = Integer.parseInt(coordinatesString[i]) - 1;
                 }
-                if (grid.getGrid().get(coordinates[0]).get(coordinates[1]).equals(" ")) {
-                    grid.getGrid().get(coordinates[0]).set(coordinates[1], player.getSymbol());
+                if (grid.getCell(coordinates[0], coordinates[1]).equals(" ")) {
+                    grid.setCell(coordinates[0], coordinates[1], player.getSymbol());
                     moveCount++;
+                    //System.out.println("!" + coordinates[0] + coordinates[1]);
+                    player.setLastMove(coordinates[0], coordinates[1]);
                     break; // if the player input is ok, we hit the break-statement and get out of the loop.
                 } else {
                     System.out.println("Space occupied! Try again.");
                 }
             }
-            catch(Exception e) { // invalid input prints a message and runs the loop again
-                System.out.println("Please enter co-ordinates (row and column) with just a space in between." +
-                        " And keep your moves within the board!");
+            catch(NumberFormatException e1) { // invalid input prints a message and runs the loop again
+                System.out.println("Please enter co-ordinates (row and column) with just a space in between.");
+            }
+            catch(IndexOutOfBoundsException e2) {
+                System.out.println("Keep your moves within the board!");
             }
         }
     }
@@ -51,10 +56,5 @@ public class Game {
     public void takeTurns() {
         makeMove(players.get(0));
         makeMove(players.get(1));
-    }
-
-    public boolean checkWin(Player player) {
-        /* This method will check if the last move made the player win. Right now, it doesn't...*/
-        return true;
     }
 }
