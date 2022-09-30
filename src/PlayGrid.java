@@ -70,61 +70,92 @@ public class PlayGrid {
        System.out.print("+\n");
    }
 
-    public boolean checkWin(int row, int column) {
-        int count = 1;
-        //System.out.println(Arrays.toString(player.getLastMove()) + getCell(player.getLastMove()[0]-1, player.getLastMove()[1]-1 ));
-        /* This method will check if the last move made the player win. Right now, it doesn't...*/
+    public boolean checkWin(int row, int column, String symbol) {
+
+        /* This method will check if the last move made the player win. It should be generalized, too much code
+        duplication. It seems to work, though.*/
 
         // Checking for vertical win
+        int count = 1;
 
-
-        System.out.println(getCell(row, column));
-
-        for (int i = row - 2; i < row + 1; i++) {
+        for (int i = - 2; i <= 1; i++) {
 
                 try {
-                    // !
-                    //System.out.println(getCell(i, column) + " " + getCell(i + 1, column));
-
-                    if (getCell(i, column).equals(getCell(i + 1, column))) {
+                    if (getCell(row + i, column).equals(getCell(row + i + 1, column)) &&
+                    getCell(row + i, column).equals(symbol)) {
                         count++;
-                        // !
-                        /*System.out.println("row: " + row + " column: " + player.getLastMove()[1]
-                                + " cell1: " + getCell(row - 1, player.getLastMove()[1] - 1) + "cell2" +
-                                getCell(row + 1, player.getLastMove()[1]));*/
-                    }
-                    System.out.println(count);
-                    if (count == 3) {
-                        return true;
                     } else {
                         count = 1;
                     }
-                } catch(Exception e) {
-
-                }
-
-        }
-
-
-        /*for (int column = player.getLastMove()[1] - 2; column < player.getLastMove()[1] + 2; column++) {
-            System.out.println(column);
-            try {
-                if (getCell(player.getLastMove()[0], column) == getCell(player.getLastMove()[0], column + 1 )){
-                    count++;
                     if (count == 3) {
                         return true;
                     }
-                } else {
-                    count = 0;
-                }
-            } catch(Exception e) {
-            }
-        }
-        return false;
-    }*/
+                } catch(IndexOutOfBoundsException e) {
 
-    //public ArrayList<ArrayList<String>> getGrid() {
-    //return grid;
+                }
+
+        }
+        // checks for horizontal win
+        count = 1;
+
+        for (int i = - 2; i <= 1; i++) {
+
+            try {
+                if (getCell(row, column + i).equals(getCell(row, column + i + 1)) &&
+                        getCell(row, column + i).equals(symbol)) {
+                    count++;
+                } else {
+                    count = 1;
+                }
+                if (count == 3) {
+                    return true;
+                }
+            } catch(IndexOutOfBoundsException e) {
+
+            }
+
+        }
+
+        // checking for downward slope diagonal win
+        count = 1;
+
+        for (int i = - 2; i <= 1; i++) {
+
+            try {
+                if (getCell(row + i, column + i).equals(getCell(row + i + 1, column + i + 1)) &&
+                        getCell(row + i, column + i).equals(symbol)) {
+                    count++;
+                } else {
+                    count = 1;
+                }
+                if (count == 3) {
+                    return true;
+                }
+            } catch(IndexOutOfBoundsException e) {
+
+            }
+
+        }
+        // checking for upwards slope diagonal win
+        count = 1;
+
+        for (int i = - 2; i <= 1; i++) {
+
+            try {
+                if (getCell(row - i, column + i).equals(getCell(row - i - 1, column + i + 1)) &&
+                        getCell(row - i, column + i).equals(symbol)) {
+                    count++;
+                } else {
+                    count = 1;
+                }
+                if (count == 3) {
+                    return true;
+                }
+            } catch(IndexOutOfBoundsException e) {
+
+            }
+
+        }
     return false;
     }
 }

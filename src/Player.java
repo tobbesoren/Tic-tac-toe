@@ -84,6 +84,9 @@ public class Player {
                 System.out.println("Keep your moves within the board!");
             }
         }
-        grid.checkWin(coordinates[0], coordinates[1]);
+        if(grid.checkWin(coordinates[0], coordinates[1], symbol)) {
+            System.out.println("You win!");
+            System.exit(0);
+        }
     }
 }
