@@ -15,6 +15,7 @@ public class PlayGrid {
     /*An ArrayList of ArrayLists of Strings holds the playing grid*/
     private ArrayList<ArrayList<String>> grid = new ArrayList<>();
 
+
     public PlayGrid(int size) {
         /* Creates a size * size empty grid*/
         for(int row = 0; row < size; row++) {
@@ -25,9 +26,19 @@ public class PlayGrid {
         }
     }
 
-    public void setCell(int row, int column, String symbol) {
+    public boolean setCell(int row, int column, String symbol) {
         /* Sets the grid cell(row, column) to String symbol */
-        grid.get(row).set(column, symbol);
+        if (getCell(row, column).equals(" ")) {
+            grid.get(row).set(column, symbol);
+            //grid.moveCount++;
+            //System.out.println("!" + coordinates[0] + coordinates[1]);
+            //player.setLastMove(coordinates[0], coordinates[1]);
+            return true; // if the player input is ok, we hit the break-statement and get out of the loop.
+        } else {
+            System.out.println("Space occupied! Try again.");
+            return false;
+        }
+
     }
 
     public String getCell(int row, int column) {
@@ -59,14 +70,13 @@ public class PlayGrid {
        System.out.print("+\n");
    }
 
-    public boolean checkWin(Player player) {
+    public boolean checkWin(int row, int column) {
         int count = 1;
         //System.out.println(Arrays.toString(player.getLastMove()) + getCell(player.getLastMove()[0]-1, player.getLastMove()[1]-1 ));
         /* This method will check if the last move made the player win. Right now, it doesn't...*/
 
         // Checking for vertical win
-        int row = player.getLastMove()[0];
-        int column = player.getLastMove()[1];
+
 
         System.out.println(getCell(row, column));
 

@@ -14,22 +14,19 @@ public class Main {
 
 
         while(game.getMoveCount() < size * size) { // The program stops when all cells are set
-            game.makeMove(p1);
+            p1.makeMove(myGrid);
+            game.moveCount++;
             myGrid.printGrid();
-            if(myGrid.checkWin(p1)) {
-                System.out.println("You win!");
-                break;
-            }
+
 
             if(game.getMoveCount() == size * size) {
                 break;
             }
-            game.makeMove(p2);
+            p2.makeMove(myGrid);
+            game.moveCount++;
             myGrid.printGrid();
-            if(myGrid.checkWin(p1)) {
-                System.out.println("You win!");
-                break;
-            }
+
+
         }
     }
 }
