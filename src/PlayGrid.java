@@ -1,6 +1,6 @@
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class PlayGrid {
     /*
@@ -15,10 +15,12 @@ public class PlayGrid {
     /*An ArrayList of ArrayLists of Strings holds the playing grid*/
     private final ArrayList<ArrayList<String>> grid = new ArrayList<>();
     private final int size;
+    private final int winningRowLength;
 
 
-    public PlayGrid(int size) {
+    public PlayGrid(int size, int winningRowLength) {
         this.size = size;
+        this.winningRowLength = winningRowLength;
         /* Creates a size * size empty grid*/
         for(int row = 0; row < this.size; row++) {
             grid.add(new ArrayList<>());
@@ -53,7 +55,15 @@ public class PlayGrid {
         }
     }
 
-   public void printRow(int row) {
+    public int getSize() {
+        return size;
+    }
+
+    public int getWinningRowLength() {
+        return winningRowLength;
+    }
+
+    public void printRow(int row) {
         /* Prints one row from the grid. Used by printGrid() */
         for(int column = 0; column < grid.get(row).size(); column++){
             System.out.print("|  " + grid.get(row).get(column) + "  ");
@@ -77,7 +87,7 @@ public class PlayGrid {
         // Checking for vertical win
         int count = 1;
 
-        for (int i = - 2; i <= 1; i++) {
+        for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
 
                 try {
                     if (getCell(row + i, column).equals(getCell(row + i + 1, column)) &&
@@ -86,18 +96,20 @@ public class PlayGrid {
                     } else {
                         count = 1;
                     }
-                    if (count == 3) {
+                    if (count == winningRowLength) {
                         return true;
                     }
                 } catch(IndexOutOfBoundsException e) {
-
+                    /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
+                    the edge. Since we just want the program to move on, nothing is done here!
+                     */
                 }
 
         }
         // checks for horizontal win
         count = 1;
 
-        for (int i = - 2; i <= 1; i++) {
+        for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
 
             try {
                 if (getCell(row, column + i).equals(getCell(row, column + i + 1)) &&
@@ -106,11 +118,13 @@ public class PlayGrid {
                 } else {
                     count = 1;
                 }
-                if (count == 3) {
+                if (count == winningRowLength) {
                     return true;
                 }
             } catch(IndexOutOfBoundsException e) {
-
+                /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
+                    the edge. Since we just want the program to move on, nothing is done here!
+                     */
             }
 
         }
@@ -118,7 +132,7 @@ public class PlayGrid {
         // checking for downward slope diagonal win
         count = 1;
 
-        for (int i = - 2; i <= 1; i++) {
+        for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
 
             try {
                 if (getCell(row + i, column + i).equals(getCell(row + i + 1, column + i + 1)) &&
@@ -127,18 +141,19 @@ public class PlayGrid {
                 } else {
                     count = 1;
                 }
-                if (count == 3) {
+                if (count == winningRowLength) {
                     return true;
                 }
             } catch(IndexOutOfBoundsException e) {
-
+                /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
+                    the edge. Since we just want the program to move on, nothing is done here!
+                     */
             }
-
         }
         // checking for upwards slope diagonal win
         count = 1;
 
-        for (int i = - 2; i <= 1; i++) {
+        for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
 
             try {
                 if (getCell(row - i, column + i).equals(getCell(row - i - 1, column + i + 1)) &&
@@ -147,14 +162,15 @@ public class PlayGrid {
                 } else {
                     count = 1;
                 }
-                if (count == 3) {
+                if (count == winningRowLength) {
                     return true;
                 }
             } catch(IndexOutOfBoundsException e) {
-
+                /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
+                    the edge. Since we just want the program to move on, nothing is done here!
+                     */
             }
-
         }
-    return false;
+        return false;
     }
 }

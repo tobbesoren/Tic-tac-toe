@@ -13,10 +13,6 @@ public class Player {
         return name;
     }
 
-    /*public String getSymbol() {
-        return symbol;
-    }*/
-
     public int getScore() {
         return score;
     }
@@ -25,9 +21,9 @@ public class Player {
         this.score++;
     }
 
-    public void makeMove(PlayGrid grid, UserInput input) {
+    public boolean makeMove(PlayGrid grid, UserInput input, Game game) {
         /* Lets a player make a move. */
-
+        boolean gameOver = false;
         System.out.println(getName() + ", make your move!(rowNumber columnNumber)");
 
         int[] coordinates = new int[2]; // for converted input
@@ -45,7 +41,11 @@ public class Player {
         if(grid.checkWin(coordinates[0], coordinates[1], symbol)) {
             System.out.println(getName() + " wins!");
             increaseScore();
-            System.exit(0); // will be changed
+            gameOver = true;
+        } else if(game.getMoveCount() == grid.getSize() * grid.getSize()) {
+            System.out.println("It's a draw!");
+            gameOver = true;
         }
+        return gameOver;
     }
 }

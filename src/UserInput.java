@@ -21,6 +21,22 @@ public class UserInput {
         }
     }
 
+    public int intInput() {
+        /* Using string input for easier error handling. This code only allows ONE integer to be entered; when I used
+        nextInt, it was possible to enter two integers separated by space (but only the first one was used)
+         */
+        String currentInputString;
+        while(true) {
+            try {
+                 currentInputString = input.nextLine();
+                 return Integer.parseInt(currentInputString);
+            } catch(NumberFormatException n) {
+                System.out.println("Please enter a single integer! Try again.");
+            }
+        }
+
+    }
+
     public int[] coordinatesInput() {
 
         String[] coordinatesString; // for raw input
