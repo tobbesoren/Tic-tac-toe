@@ -13,12 +13,14 @@ public class PlayGrid {
     +-----+-----+-----+
      */
     /*An ArrayList of ArrayLists of Strings holds the playing grid*/
-    private ArrayList<ArrayList<String>> grid = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> grid = new ArrayList<>();
+    private final int size;
 
 
     public PlayGrid(int size) {
+        this.size = size;
         /* Creates a size * size empty grid*/
-        for(int row = 0; row < size; row++) {
+        for(int row = 0; row < this.size; row++) {
             grid.add(new ArrayList<>());
             for(int column = 0; column < size; column++) {
                 grid.get(row).add(" ");
@@ -27,13 +29,10 @@ public class PlayGrid {
     }
 
     public boolean setCell(int row, int column, String symbol) {
-        /* Sets the grid cell(row, column) to String symbol */
+        /* Sets the grid cell(row, column) to String symbol if the space is unoccupied */
         if (getCell(row, column).equals(" ")) {
             grid.get(row).set(column, symbol);
-            //grid.moveCount++;
-            //System.out.println("!" + coordinates[0] + coordinates[1]);
-            //player.setLastMove(coordinates[0], coordinates[1]);
-            return true; // if the player input is ok, we hit the break-statement and get out of the loop.
+            return true;
         } else {
             System.out.println("Space occupied! Try again.");
             return false;
