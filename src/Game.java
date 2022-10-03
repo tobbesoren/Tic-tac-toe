@@ -16,6 +16,10 @@ public class Game {
         return moveCount;
     }
 
+    public void increaseMoveCount() {
+        moveCount++;
+    }
+
     public void mainMenu() {
         System.out.println("""
                 *** Tic-Tac-Toe DX ***
@@ -77,6 +81,19 @@ public class Game {
     }
 
     public void onePlayerGame() {
+        System.out.println("Player one, enter your name: ");
+        players.add(new Player(input.stringInput(), "X"));
+        System.out.println("Playing against THE DICE MAN! ");
+        players.add(new TheDiceMan());
+
+        System.out.println("Enter playing board size (3 is strongly advised): ");
+        int size = input.intInput();
+        System.out.println("Enter how many symbols in a row is needed to win");
+        int winningRowLength = input.intInput();
+        grid = new PlayGrid(size, winningRowLength);
+        grid.printGrid();
+
+        takeTurns();
 
     }
 
@@ -102,7 +119,7 @@ public class Game {
 
         while (true) {
             for (Player currentPlayer : players) {
-                if (currentPlayer.makeMove(grid, input, this)) {
+                if (currentPlayer.makeMove(grid, input, this)) { // .makeMove() returns a boolean
                     grid.printGrid();
                     continueMenu();
                 } else {

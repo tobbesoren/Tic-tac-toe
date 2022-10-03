@@ -1,4 +1,6 @@
 
+import com.sun.jdi.IntegerValue;
+
 import java.util.ArrayList;
 
 
@@ -44,6 +46,21 @@ public class PlayGrid {
 
     public String getCell(int row, int column) {
         return grid.get(row).get(column);
+    }
+
+    public ArrayList<int[]> getAvailableCells() {
+        ArrayList<int[]> result = new ArrayList<>();
+        for(int row = 0; row < size; row++) {
+            for(int column = 0; column < size; column++) {
+                if(getCell(row, column).equals(" ")) {
+                    int[] coordinates = new int[2];
+                    coordinates[0] = row;
+                    coordinates[1] = column;
+                    result.add(coordinates);
+                }
+            }
+        }
+        return result;
     }
 
     public void printGrid() {
