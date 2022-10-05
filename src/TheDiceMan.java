@@ -2,36 +2,35 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class TheDiceMan extends Player{
+    /*
+    Extends Player, by overriding makeMove() method. Uses a Random object to choose among available grid cells.
+     */
+    Random rand;
 
     public TheDiceMan() {
         super("The Dice Man", "O");
+        this.rand = new Random();
     }
 
-    public boolean makeMove(PlayGrid grid, UserInput input, Game game) {
-        /* Lets a player make a move. */
-        boolean gameOver = false;
-        System.out.println(getName() + ", is thinking of his next move. \nPress enter to continue.");
-        input.pressEnterToProceed();
+    @Override
+    public int[] makeMove(PlayGrid grid, UserInput input, Game game) {
+        /*
+        The bot randomly selects a move from the available cells, calling grid.availableCells().
+        Returns the coordinates as an array of ints.
+        */
+
+        System.out.println(getName() + " is thinking of his next move. \nPress enter to continue.");
+        input.pressEnterToProceed(); // we pause until enter is pressed. For suspense!
 
         ArrayList<int[]> availableCells = new ArrayList<>(grid.getAvailableCells());
 
-        Random rand = new Random();
-
         int botMove = rand.nextInt(availableCells.size());
 
-        int[] coordinates = new int[]{availableCells.get(botMove)[0], availableCells.get(botMove)[1]};// for converted input
+        int[] coordinates = new int[]{availableCells.get(botMove)[0], availableCells.get(botMove)[1]};
         grid.setCell(coordinates[0], coordinates[1], symbol);
         game.increaseMoveCount();
+        System.out.println("Move: " + (coordinates[0] + 1) + ", " + (coordinates[1] + 1));
 
-        // I think I should move this to Game class...
-        if(grid.checkWin(coordinates[0], coordinates[1], symbol)) {
-            System.out.println(getName() + " wins!");
-            increaseScore();
-            gameOver = true;
-        } else if(game.getMoveCount() == grid.getSize() * grid.getSize()) {
-            System.out.println("It's a draw!");
-            gameOver = true;
-        }
-        return gameOver;
+        return coordinates;
     }
 }

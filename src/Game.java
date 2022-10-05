@@ -2,7 +2,10 @@ import java.util.ArrayList;
 
 
 public class Game {
-    //static Scanner input = new Scanner(System.in);
+    /*
+    A class that sets up and runs the game. Holds Players, PlayGrid and userInput instances.
+    Keeps track of total moves made (in moveCount).
+     */
     private final ArrayList<Player> players = new ArrayList<>(); // maybe this should be an Array instead?
     private PlayGrid grid;
     public int moveCount = 0; // keeps track of total number of moves made by both players
@@ -118,14 +121,31 @@ public class Game {
     public void takeTurns() {
 
         while (true) {
+
+            int[] coordinates;
+            boolean gameOver = false;
+
             for (Player currentPlayer : players) {
-                if (currentPlayer.makeMove(grid, input, this)) { // .makeMove() returns a boolean
-                    grid.printGrid();
-                    continueMenu();
-                } else {
-                    grid.printGrid();
+                coordinates = currentPlayer.makeMove(grid, input, this);
+
+                if(grid.checkWin(coordinates[0], coordinates[1], currentPlayer.symbol)) {
+                    System.out.println(currentPlayer.getName() + " wins!");
+                    currentPlayer.increaseScore();
+                    gameOver = true;
+                } else if(getMoveCount() == grid.getSize() * grid.getSize()) {
+                    System.out.println("It's a draw!");
+                    gameOver = true;
                 }
+
+                grid.printGrid();
+                if (gameOver) {
+                    continueMenu();
+                }
+
+
             }
         }
     }
+
+
 }

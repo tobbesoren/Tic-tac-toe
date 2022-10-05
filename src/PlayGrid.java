@@ -1,11 +1,12 @@
 
-import com.sun.jdi.IntegerValue;
-
 import java.util.ArrayList;
 
 
 public class PlayGrid {
-    /*
+    /* Used for the playing board. An ArrayList of ArrayLists of Strings holds the playing grid.
+    Takes size and winningRowLength as arguments when created.
+    Contains methods for setting a symbol to a specific cell, returning a cells symbol, getting an arraylist of the
+    available cells, printing the grid and checking winning condition, as well as getters.
     +-----+-----+-----+
     |  x  |  o  |  x  |
     +-----+-----+-----+
@@ -14,7 +15,7 @@ public class PlayGrid {
     |  o  |  x  |     |
     +-----+-----+-----+
      */
-    /*An ArrayList of ArrayLists of Strings holds the playing grid*/
+    /**/
     private final ArrayList<ArrayList<String>> grid = new ArrayList<>();
     private final int size;
     private final int winningRowLength;
@@ -162,9 +163,10 @@ public class PlayGrid {
                     return true;
                 }
             } catch(IndexOutOfBoundsException e) {
-                /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
-                    the edge. Since we just want the program to move on, nothing is done here!
-                     */
+                /*
+                This catches IndexOutOfBoundsExceptions that will happen if the move made is too close to
+                the edge. Let's pretend nothing happened and move on!
+                */
             }
         }
         // checking for upwards slope diagonal win
@@ -187,6 +189,35 @@ public class PlayGrid {
                     the edge. Since we just want the program to move on, nothing is done here!
                      */
             }
+        }
+        return false;
+    }
+    private boolean checkRow(int row, int rowMod, int column, int columnMod, String symbol) {
+        /*
+        Modifiers:
+        Vertical: row + 1, column
+        Horizontal: row, column + 1
+        */
+        int count = 1;
+
+        for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
+
+            try {
+                if (getCell(row + i, column).equals(getCell(row + i + 1, column)) &&
+                        getCell(row + i, column).equals(symbol)) {
+                    count++;
+                } else {
+                    count = 1;
+                }
+                if (count == winningRowLength) {
+                    return true;
+                }
+            } catch(IndexOutOfBoundsException e) {
+                    /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
+                    the edge. Since we just want the program to move on, nothing is done here!
+                     */
+            }
+
         }
         return false;
     }

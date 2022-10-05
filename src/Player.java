@@ -1,4 +1,9 @@
 public class Player {
+    /*
+    The Player class is used for a human player and holds the players name, the symbol used on the board,
+    and the cumulated score.
+    It has methods for getting score and name, increasing score, and making a move on a board.
+     */
     protected final String name;
     protected final String symbol;
     protected int score;
@@ -6,6 +11,7 @@ public class Player {
     public Player (String name, String symbol) {
         this.name = name;
         this.symbol = symbol;
+        this.score = 0;
 
     }
 
@@ -21,13 +27,14 @@ public class Player {
         this.score++;
     }
 
-    public boolean makeMove(PlayGrid grid, UserInput input, Game game) {
-        /* Lets a player make a move, returns true if the move ends the game. Maybe I should return the coordinates
-        instead, and check winning conditions in Game. */
-        boolean gameOver = false;
-        System.out.println(getName() + ", make your move!(rowNumber columnNumber)");
+    public int[] makeMove(PlayGrid grid, UserInput input, Game game) {
+        /* Lets a player make a move. Calls grid.setCell(), which checks that the cell is unoccupied.
+        Uses catch - try to make sure the move is within the board.
+        Returns the coordinates as an array of ints. */
 
-        int[] coordinates = new int[2]; // for converted input
+        System.out.println(getName() + ", make your move!");
+
+        int[] coordinates = new int[2];
 
         boolean endLoop = false;
 
@@ -40,17 +47,7 @@ public class Player {
             }
         }
         game.increaseMoveCount();
-        // I think I should move this to Game class. Checks if the game ends.
-        if(grid.checkWin(coordinates[0], coordinates[1], symbol)) {
-            System.out.println(getName() + " wins!");
-            increaseScore();
-            gameOver = true;
 
-        } else if(game.getMoveCount() == grid.getSize() * grid.getSize()) {
-                System.out.println("It's a draw!");
-                gameOver = true;
-
-        }
-        return gameOver;
+        return coordinates;
     }
 }

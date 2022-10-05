@@ -1,6 +1,10 @@
 import java.util.Scanner;
 
 public class UserInput {
+    /*
+    This class handles all user input.
+    All methods check that the input is valid, if not, the user is asked to try again.
+     */
 
     Scanner input;
 
@@ -10,8 +14,6 @@ public class UserInput {
 
     public String stringInput() {
         while (true) {
-
-
             String string = this.input.nextLine();
             if (string.equals("")) {
                 System.out.println("You must enter something! Try again.");
@@ -22,8 +24,9 @@ public class UserInput {
     }
 
     public int intInput() {
-        /* Using string input for easier error handling. This code only allows ONE integer to be entered; when I used
-        nextInt, it was possible to enter two integers separated by space (but only the first one was used)
+        /*
+        Using string input for easier error handling. This code only allows ONE integer to be entered; when I used
+        nextInt, it was possible to enter two integers separated by space (but only the first one was read.)
          */
         String currentInputString;
         while(true) {
@@ -46,8 +49,8 @@ public class UserInput {
             try {
                 coordinatesString = this.input.nextLine().split(" ");
                 for (int i = 0; i < 2; i++) {
-                    coordinates[i] = Integer.parseInt(coordinatesString[i]) - 1; // converts from user input to
-                                                                                 // zero-indexing!
+                    coordinates[i] = Integer.parseInt(coordinatesString[i]) - 1; // Uses -1 to convert from user input
+                                                                                 // to zero-indexing!
                 }
                 return coordinates;
             } catch (NumberFormatException n) {
