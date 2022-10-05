@@ -99,113 +99,52 @@ public class PlayGrid {
 
     public boolean checkWin(int row, int column, String symbol) {
 
-        /* This method will check if the last move made the player win. It should be generalized, too much code
-        duplication. It seems to work, though.*/
+        /* This method will check if the last move made the player win. It uses checkRow() four times with different
+        modifiers to do so. It returns true if the player made a winning move, and false otherwise
+        */
 
-        // Checking for vertical win
-        int count = 1;
+        // checks for vertical win
+        if(checkRow(row, column, symbol, 1, 0)) {
+            return true;
 
-        for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
+            // checks for horizontal win
+        } else if(checkRow(row, column, symbol, 0, 1)){
+            return true;
 
-                try {
-                    if (getCell(row + i, column).equals(getCell(row + i + 1, column)) &&
-                    getCell(row + i, column).equals(symbol)) {
-                        count++;
-                    } else {
-                        count = 1;
-                    }
-                    if (count == winningRowLength) {
-                        return true;
-                    }
-                } catch(IndexOutOfBoundsException e) {
-                    /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
-                    the edge. Since we just want the program to move on, nothing is done here!
-                     */
-                }
+            // checks for diagonal downward slope win
+        } else if(checkRow(row, column, symbol, 1, 1)) {
+            return true;
 
-        }
-        // checks for horizontal win
-        count = 1;
-
-        for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
-
-            try {
-                if (getCell(row, column + i).equals(getCell(row, column + i + 1)) &&
-                        getCell(row, column + i).equals(symbol)) {
-                    count++;
-                } else {
-                    count = 1;
-                }
-                if (count == winningRowLength) {
-                    return true;
-                }
-            } catch(IndexOutOfBoundsException e) {
-                /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
-                    the edge. Since we just want the program to move on, nothing is done here!
-                     */
-            }
-
-        }
-
-        // checking for downward slope diagonal win
-        count = 1;
-
-        for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
-
-            try {
-                if (getCell(row + i, column + i).equals(getCell(row + i + 1, column + i + 1)) &&
-                        getCell(row + i, column + i).equals(symbol)) {
-                    count++;
-                } else {
-                    count = 1;
-                }
-                if (count == winningRowLength) {
-                    return true;
-                }
-            } catch(IndexOutOfBoundsException e) {
-                /*
-                This catches IndexOutOfBoundsExceptions that will happen if the move made is too close to
-                the edge. Let's pretend nothing happened and move on!
-                */
-            }
-        }
-        // checking for upwards slope diagonal win
-        count = 1;
-
-        for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
-
-            try {
-                if (getCell(row - i, column + i).equals(getCell(row - i - 1, column + i + 1)) &&
-                        getCell(row - i, column + i).equals(symbol)) {
-                    count++;
-                } else {
-                    count = 1;
-                }
-                if (count == winningRowLength) {
-                    return true;
-                }
-            } catch(IndexOutOfBoundsException e) {
-                /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
-                    the edge. Since we just want the program to move on, nothing is done here!
-                     */
-            }
+            // checks for diagonal upwards slope win
+        } else if(checkRow(row, column, symbol, -1, 1)) {
+            return true;
         }
         return false;
+
     }
-    private boolean checkRow(int row, int rowMod, int column, int columnMod, String symbol) {
+    private boolean checkRow(int row,  int column, String symbol, int rowModifier, int columnModifier) {
         /*
+        Checks for a winning row, returns true or false. Used by checkWin().
         Modifiers:
-        Vertical: row + 1, column
-        Horizontal: row, column + 1
+        Vertical: (1, 0)
+        Horizontal: (0, 1)
+        Diagonal, downward: (1, 1)
+        Diagonal, upward: (-1, 1)
         */
         int count = 1;
 
         for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
+            System.out.println((row + (i * rowModifier)) + " " + (column + (i * columnModifier)) + "     " +
+                    (row + (i * rowModifier) + rowModifier) + " " + (column + (i * columnModifier) + columnModifier));
+
 
             try {
-                if (getCell(row + i, column).equals(getCell(row + i + 1, column)) &&
-                        getCell(row + i, column).equals(symbol)) {
+                System.out.println(getCell(row + (i * rowModifier), column + (i * columnModifier)));
+                if (getCell(row + (i * rowModifier), column + (i * columnModifier)).equals(
+                        getCell(row + (i * rowModifier) + rowModifier, column + (i * columnModifier) + columnModifier)) &&
+                        getCell(row, column).equals(symbol)) {
                     count++;
+                    System.out.println(count);
                 } else {
                     count = 1;
                 }
@@ -214,7 +153,7 @@ public class PlayGrid {
                 }
             } catch(IndexOutOfBoundsException e) {
                     /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
-                    the edge. Since we just want the program to move on, nothing is done here!
+                    the edge. Let's just pretend nothing happened and move on.
                      */
             }
 
