@@ -33,6 +33,14 @@ public class PlayGrid {
         }
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public int getWinningRowLength() {
+        return winningRowLength;
+    }
+
     public boolean setCell(int row, int column, String symbol) {
         /* Sets the grid cell(row, column) to String symbol if the space is unoccupied */
         if (getCell(row, column).equals(" ")) {
@@ -42,7 +50,6 @@ public class PlayGrid {
             System.out.println("Space occupied! Try again.");
             return false;
         }
-
     }
 
     public String getCell(int row, int column) {
@@ -66,19 +73,11 @@ public class PlayGrid {
 
     public void printGrid() {
         /* Prints the grid to the terminal, using printRow() and printLine()*/
-        printLine();
+        printGridLine();
         for(int row = 0; row < grid.get(0).size(); row++) {
             printRow(row);
-            printLine();
+            printGridLine();
         }
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public int getWinningRowLength() {
-        return winningRowLength;
     }
 
     public void printRow(int row) {
@@ -89,7 +88,7 @@ public class PlayGrid {
         System.out.println("|");
    }
 
-   public void printLine() {
+   public void printGridLine() {
         /* Prints the lines in-between rows of the grid. Used by printGrid(). */
         for(int column = 0; column < grid.get(0).size(); column++) {
             System.out.print("+-----");
@@ -134,17 +133,12 @@ public class PlayGrid {
         int count = 1;
 
         for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
-            System.out.println((row + (i * rowModifier)) + " " + (column + (i * columnModifier)) + "     " +
-                    (row + (i * rowModifier) + rowModifier) + " " + (column + (i * columnModifier) + columnModifier));
-
 
             try {
-                System.out.println(getCell(row + (i * rowModifier), column + (i * columnModifier)));
                 if (getCell(row + (i * rowModifier), column + (i * columnModifier)).equals(
                         getCell(row + (i * rowModifier) + rowModifier, column + (i * columnModifier) + columnModifier)) &&
-                        getCell(row, column).equals(symbol)) {
+                        getCell(row + (i * rowModifier), column + (i * columnModifier)).equals(symbol)) {
                     count++;
-                    System.out.println(count);
                 } else {
                     count = 1;
                 }
@@ -156,7 +150,6 @@ public class PlayGrid {
                     the edge. Let's just pretend nothing happened and move on.
                      */
             }
-
         }
         return false;
     }
