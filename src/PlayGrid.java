@@ -3,19 +3,13 @@ import java.util.ArrayList;
 
 
 public class PlayGrid {
-    /* Used for the playing board. An ArrayList of ArrayLists of Strings holds the playing grid.
+    /*
+    Used for the playing board. An ArrayList of ArrayLists of Strings holds the playing grid.
     Takes size and winningRowLength as arguments when created.
-    Contains methods for setting a symbol to a specific cell, returning a cells symbol, getting an arraylist of the
-    available cells, printing the grid and checking winning condition, as well as getters.
-    +-----+-----+-----+
-    |  x  |  o  |  x  |
-    +-----+-----+-----+
-    |     |  o  |  x  |
-    +-----+-----+-----+
-    |  o  |  x  |     |
-    +-----+-----+-----+
+    Contains methods for setting a symbol to a specific cell, returning a cell's symbol, getting an arraylist of the
+    available cells, printing the grid and checking winning condition, as well as getter methods.
      */
-    /**/
+
     private final ArrayList<ArrayList<String>> grid = new ArrayList<>();
     private final int size;
     private final int winningRowLength;
@@ -24,7 +18,8 @@ public class PlayGrid {
     public PlayGrid(int size, int winningRowLength) {
         this.size = size;
         this.winningRowLength = winningRowLength;
-        /* Creates a size * size empty grid*/
+
+        // Creates a size * size empty grid
         for(int row = 0; row < this.size; row++) {
             grid.add(new ArrayList<>());
             for(int column = 0; column < size; column++) {
@@ -42,7 +37,10 @@ public class PlayGrid {
     }
 
     public boolean setCell(int row, int column, String symbol) {
-        /* Sets the grid cell(row, column) to String symbol if the space is unoccupied */
+        /*
+        Sets the grid cell(row, column) to String symbol if the space is unoccupied
+        */
+
         if (getCell(row, column).equals(" ")) {
             grid.get(row).set(column, symbol);
             return true;
@@ -57,7 +55,12 @@ public class PlayGrid {
     }
 
     public ArrayList<int[]> getAvailableCells() {
+        /*
+        Returns an ArrayList of Arrays of coordinates (int) of all unoccupied cells in the grid.
+         */
+
         ArrayList<int[]> result = new ArrayList<>();
+
         for(int row = 0; row < size; row++) {
             for(int column = 0; column < size; column++) {
                 if(getCell(row, column).equals(" ")) {
@@ -72,7 +75,10 @@ public class PlayGrid {
     }
 
     public void printGrid() {
-        /* Prints the grid to the terminal, using printRow() and printLine()*/
+        /*
+        Prints the grid to the terminal, using printRow() and printLine().
+        */
+
         System.out.print("      ");
         for(int i = 1; i <= getSize(); i++) {
             System.out.print("  " + String.format("%2d", i) + "  ");
@@ -86,7 +92,10 @@ public class PlayGrid {
     }
 
     public void printRow(int row) {
-        /* Prints one row from the grid. Used by printGrid() */
+        /*
+        Prints one row from the grid. Used by printGrid().
+        */
+
         System.out.print("  " + String.format("%2d", row) + "  ");
         for(int column = 1; column <= getSize(); column++){
             System.out.print("|  " + getCell(row - 1, column - 1) + "  ");
@@ -95,7 +104,10 @@ public class PlayGrid {
    }
 
    public void printGridLine() {
-        /* Prints the lines in-between rows of the grid. Used by printGrid(). */
+        /*
+        Prints the lines in-between rows of the grid. Used by printGrid().
+        */
+
         System.out.print("      ");
         for(int column = 1; column <= getSize(); column++) {
             System.out.print("+-----");
@@ -104,25 +116,25 @@ public class PlayGrid {
    }
 
     public boolean checkWin(int row, int column, String symbol) {
-
-        /* This method will check if the last move made the player win. It uses checkRow() four times with different
-        modifiers to do so. It returns true if the player made a winning move, and false otherwise
+        /*
+        This method will check if the last move made the player win. It uses checkRow() four times with different
+        modifiers to do so. It returns true if the player made a winning move, and false otherwise.
+        Note that it only checks the positions on the board around the latest move made; it doesn't check all rows, and
+        it doesn't necessarily check the entire rows (that depends on the board size and the winningRowLength).
+        This means that the method is more effective on larger boards.
         */
 
-        // checks for vertical win
-        if(checkRow(row, column, symbol, 1, 0)) {
+
+        if(checkRow(row, column, symbol, 1, 0)) {//checks for vertical win
             return true;
 
-            // checks for horizontal win
-        } else if(checkRow(row, column, symbol, 0, 1)){
+        } else if(checkRow(row, column, symbol, 0, 1)){//checks for horizontal win
             return true;
 
-            // checks for diagonal downward slope win
-        } else if(checkRow(row, column, symbol, 1, 1)) {
+        } else if(checkRow(row, column, symbol, 1, 1)) {//checks for diagonal downward slope win
             return true;
 
-            // checks for diagonal upwards slope win
-        } else if(checkRow(row, column, symbol, -1, 1)) {
+        } else if(checkRow(row, column, symbol, -1, 1)) {//checks for diagonal upwards slope win
             return true;
         }
         return false;
@@ -136,15 +148,20 @@ public class PlayGrid {
         Horizontal: (0, 1)
         Diagonal, downward: (1, 1)
         Diagonal, upward: (-1, 1)
+
+        Uses sloppy error handling with try - catch instead of manually checking the indices.
         */
+
         int count = 1;
 
         for (int i = - (winningRowLength - 1); i <= (winningRowLength-2); i++) {
 
             try {
                 if (getCell(row + (i * rowModifier), column + (i * columnModifier)).equals(
-                        getCell(row + (i * rowModifier) + rowModifier, column + (i * columnModifier) + columnModifier)) &&
-                        getCell(row + (i * rowModifier), column + (i * columnModifier)).equals(symbol)) {
+                        getCell(row + (i * rowModifier) + rowModifier,
+                                column + (i * columnModifier) + columnModifier)) &&
+                        getCell(row + (i * rowModifier),
+                                column + (i * columnModifier)).equals(symbol)) {
                     count++;
                 } else {
                     count = 1;
@@ -153,7 +170,8 @@ public class PlayGrid {
                     return true;
                 }
             } catch(IndexOutOfBoundsException e) {
-                    /* This catches IndexOutOfBoundsException that will happen if the move made is too close to
+                    /*
+                    This catches IndexOutOfBoundsException that will happen if the move made is too close to
                     the edge. Let's just pretend nothing happened and move on.
                      */
             }
