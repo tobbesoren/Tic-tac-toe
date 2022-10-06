@@ -73,8 +73,13 @@ public class PlayGrid {
 
     public void printGrid() {
         /* Prints the grid to the terminal, using printRow() and printLine()*/
+        System.out.print("      ");
+        for(int i = 1; i <= getSize(); i++) {
+            System.out.print("  " + String.format("%2d", i) + "  ");
+        }
+        System.out.print("\n");
         printGridLine();
-        for(int row = 0; row < grid.get(0).size(); row++) {
+        for(int row = 1; row <= getSize(); row++) {
             printRow(row);
             printGridLine();
         }
@@ -82,15 +87,17 @@ public class PlayGrid {
 
     public void printRow(int row) {
         /* Prints one row from the grid. Used by printGrid() */
-        for(int column = 0; column < grid.get(row).size(); column++){
-            System.out.print("|  " + grid.get(row).get(column) + "  ");
+        System.out.print("  " + String.format("%2d", row) + "  ");
+        for(int column = 1; column <= getSize(); column++){
+            System.out.print("|  " + getCell(row - 1, column - 1) + "  ");
         }
         System.out.println("|");
    }
 
    public void printGridLine() {
         /* Prints the lines in-between rows of the grid. Used by printGrid(). */
-        for(int column = 0; column < grid.get(0).size(); column++) {
+        System.out.print("      ");
+        for(int column = 1; column <= getSize(); column++) {
             System.out.print("+-----");
         }
        System.out.print("+\n");

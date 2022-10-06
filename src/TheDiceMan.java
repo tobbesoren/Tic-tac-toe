@@ -7,8 +7,8 @@ public class TheDiceMan extends Player{
      */
     Random rand;
 
-    public TheDiceMan() {
-        super("The Dice Man", "O");
+    public TheDiceMan(String name, String symbol) {
+        super(name + " the Dice Man", symbol);
         this.rand = new Random();
     }
 
@@ -19,7 +19,7 @@ public class TheDiceMan extends Player{
         Returns the coordinates as an array of ints.
         */
 
-        System.out.println(getName() + " is thinking of his next move. \nPress enter to continue.");
+        System.out.println("\n" + getName() + " is thinking of his next move. \nPress enter to continue.");
         input.pressEnterToProceed(); // we pause until enter is pressed. For suspense!
 
         ArrayList<int[]> availableCells = new ArrayList<>(grid.getAvailableCells());
@@ -29,7 +29,7 @@ public class TheDiceMan extends Player{
         int[] coordinates = new int[]{availableCells.get(botMove)[0], availableCells.get(botMove)[1]};
         grid.setCell(coordinates[0], coordinates[1], symbol);
         game.increaseMoveCount();
-        System.out.println("Move: " + (coordinates[0] + 1) + ", " + (coordinates[1] + 1));
+        System.out.println("Move: " + (coordinates[0] + 1) + ", " + (coordinates[1] + 1) + "\n");
 
         return coordinates;
     }
