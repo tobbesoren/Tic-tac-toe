@@ -12,7 +12,7 @@ public class HumanPlayer extends Player {
         Uses catch - try to make sure the move is within the board.
         Returns the coordinates as an array of ints. */
 
-        System.out.println(getName() + ", make your move!");
+        System.out.println(getName() + " (" + symbol +")" + ", make your move! (Enter row number and column number, separated by a space.)");
 
         int[] coordinates = new int[2];
 

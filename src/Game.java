@@ -28,13 +28,16 @@ public class Game {
     }
 
     public void mainMenu() {
+
         System.out.println("""
+                
+                
                 *** Tic-Tac-Toe DX ***
                 
                 ---Make a selection:---
                    1: Start game
                    2: Exit
-                ----------------------""");
+                -----------------------""");
         while(true) {
             int selection = input.intInput();
 
@@ -98,13 +101,13 @@ public class Game {
 
     public Player addPlayer(int playerNumber, String symbol) {
 
-        System.out.print("---Is player " + playerNumber + ": ------\n");
+        System.out.print("---Is player " + playerNumber + ": -------\n");
         System.out.println("""
                    1. Human
                       or
                    2. Bot
                       ?
-                ----------------------""");
+                -----------------------""");
 
         Player newPlayer;
 
@@ -134,7 +137,6 @@ public class Game {
         playGrid = new PlayGrid(size, winningRowLength);
         moveCount = 0;
         playOrder.clear();
-        coinToss();
     }
 
     public void coinToss() {
@@ -152,13 +154,14 @@ public class Game {
             playOrder.add(playerTwo);
             playOrder.add(playerOne);
         }
-        System.out.println("The coin is tossed. " + playOrder.get(0).getName() + " makes the first move!\n");
+        System.out.println("The coin is tossed. " + playOrder.get(0).getName() + " makes the first move!");
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
     public void takeTurns() {
 
         playGrid.printGrid();
+        coinToss();
 
         while (true) {
 
@@ -169,11 +172,11 @@ public class Game {
                 coordinates = currentPlayer.makeMove(playGrid, input, this);
 
                 if(playGrid.checkWin(coordinates[0], coordinates[1], currentPlayer.symbol)) {
-                    System.out.println(currentPlayer.getName() + " wins!");
+                    System.out.println(currentPlayer.getName() + " wins!\n");
                     currentPlayer.increaseScore();
                     gameOver = true;
                 } else if(getMoveCount() == playGrid.getSize() * playGrid.getSize()) {
-                    System.out.println("It's a draw!");
+                    System.out.println("It's a draw!\n");
                     gameOver = true;
                 }
 

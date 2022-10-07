@@ -19,7 +19,7 @@ public class TheDiceMan extends Player{
         Returns the coordinates as an array of ints.
         */
 
-        System.out.println("\n" + getName() + " is thinking of his next move. \nPress enter to continue.");
+        System.out.println("\n" + getName() + " (" + symbol +")" + " is thinking of his next move. \nPress enter to continue.");
         input.pressEnterToProceed(); // we pause until enter is pressed. For suspense!
 
         ArrayList<int[]> availableCells = new ArrayList<>(grid.getAvailableCells());
