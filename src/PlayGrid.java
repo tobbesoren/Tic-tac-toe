@@ -52,6 +52,23 @@ public class PlayGrid {
         return grid.get(row).get(column);
     }
 
+    private void resetCell(int row, int column) {
+        /*
+        Used by tryCell to reset the tried cell.
+         */
+        grid.get(row).set(column, " ");
+    }
+
+    public boolean tryCell(int row, int column, String symbol) {
+        /*
+        Used by BetterBot's MakeMove, to decide if the move is a winning one. Or if the opponent is about to win.
+         */
+        setCell(row, column, symbol);
+        boolean winningMove = checkWin(row, column, symbol);
+        resetCell(row, column);
+        return winningMove;
+    }
+
     public ArrayList<int[]> getAvailableCells() {
         /*
         Returns an ArrayList of Arrays of coordinates (int) of all unoccupied cells in the grid.
