@@ -51,21 +51,21 @@ public class TheDestroyer extends Player{
 
     public int minMax(PlayGrid playState, Player currentPlayer, Game game,
                           ArrayList<int[]> availableMoves, int[] move, int depth) {
-
+        int score;
         if(playState.checkWin(move[0], move [1], currentPlayer.symbol)) {
             if(currentPlayer == this) {
-                int score = 10;
+                score = 10;
             } else {
-                int score = -10;
+                score = -10;
             }
             return score;
         } else if(game.getMoveCount() == playState.getSize() * playState.getSize()) {
             return 0;
         }
 
-        int best;
+
         if(currentPlayer == this) {
-            best = -1000;
+            int best = -1000;
             for(int[] nextMove: availableMoves) {
                 playState.setCell(nextMove[0], nextMove[1], currentPlayer.symbol);
                 game.increaseMoveCount();
@@ -78,9 +78,9 @@ public class TheDestroyer extends Player{
                 playState.resetCell(nextMove[0], nextMove[1]);
                 game.decreaseMoveCount();
             }
-
+            return best;
         } else {
-            best = 1000;
+            int best = 1000;
             for(int[] nextMove: availableMoves) {
                 playState.setCell(nextMove[0], nextMove[1], currentPlayer.symbol);
                 game.increaseMoveCount();
@@ -93,8 +93,9 @@ public class TheDestroyer extends Player{
                 playState.resetCell(nextMove[0], nextMove[1]);
                 game.decreaseMoveCount();
             }
+            return best;
         }
-        return best;
+
 
 
     }
