@@ -27,6 +27,10 @@ public class Game {
         moveCount++;
     }
 
+    public void decreaseMoveCount() {
+        moveCount--;
+    }
+
     public void mainMenu() {
 
         System.out.println("""
@@ -124,7 +128,7 @@ public class Game {
                 }
                 case 2 -> {
                     System.out.println("Enter the bot's nickname:");
-                    newPlayer = new BetterBot(input.stringInput(), symbol);
+                    newPlayer = new TheDestroyer(input.stringInput(), symbol);
                     return newPlayer;
                 }
                 default -> System.out.println("Please enter 1 or 2! Nothing else. How hard could it be?");

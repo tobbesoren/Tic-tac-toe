@@ -52,9 +52,9 @@ public class PlayGrid {
         return grid.get(row).get(column);
     }
 
-    private void resetCell(int row, int column) {
+    public void resetCell(int row, int column) {
         /*
-        Used by tryCell to reset the tried cell.
+        Used by tryCell and TheDestroyer to reset the tried cell.
          */
         grid.get(row).set(column, " ");
     }
