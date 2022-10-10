@@ -9,6 +9,8 @@ public abstract class Player {
     protected final String symbol;
     protected int score;
 
+    protected Player opponentPlayer;
+
     public Player (String name, String symbol) {
         this.name = name;
         this.symbol = symbol;
@@ -18,6 +20,14 @@ public abstract class Player {
 
     public String getName() {
         return name;
+    }
+
+    public Player getOpponentPlayer() {
+        return opponentPlayer;
+    }
+
+    public void setOpponentPlayer(Player opponentPlayer) {
+        this.opponentPlayer = opponentPlayer;
     }
 
     public int getScore() {

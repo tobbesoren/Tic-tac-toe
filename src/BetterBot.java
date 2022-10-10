@@ -17,10 +17,6 @@ public class BetterBot extends Player{
     @Override
     public int[] makeMove(PlayGrid grid, UserInput input, Game game) {
 
-        String opponentSymbol;
-        if (symbol.equals("X")) opponentSymbol = "O";
-        else opponentSymbol = "X";
-
         System.out.println("\n" + getName() + " (" + symbol +")" + " is thinking of their next move." +
                 "\nPress enter to continue.");
         input.pressEnterToProceed(); // we pause until enter is pressed. For suspense!
@@ -37,7 +33,7 @@ public class BetterBot extends Player{
         }
         // Checks if the opponent is about to win; if so, blocks the cell
         for(int[] move : availableCells) {
-            if(grid.tryCell(move[0], move[1], opponentSymbol)) {
+            if(grid.tryCell(move[0], move[1], opponentPlayer.symbol)) {
                 grid.setCell(move[0], move[1], symbol);
                 game.increaseMoveCount();
                 System.out.println("Move: " + (move[0] + 1) + ", " + (move[1] + 1) + "\n");

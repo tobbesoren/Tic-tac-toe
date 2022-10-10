@@ -61,6 +61,9 @@ public class Game {
         playerOne = addPlayer(1, "X");
         playerTwo = addPlayer(2, "O");
 
+        playerOne.setOpponentPlayer(playerTwo);
+        playerTwo.setOpponentPlayer(playerOne);
+
         System.out.println("Enter playing board size (a number between 3 and 15): ");
 
         boolean wrongInput = true;
