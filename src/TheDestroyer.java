@@ -27,7 +27,6 @@ public class TheDestroyer extends Player{
         // Loop through all free cells of the grid
         for(int[] move : availableMoves){
             // Make the move
-            // make the move
             grid.setCell(move[0], move[1], this.symbol);
 
             // Increase moveCount
@@ -43,11 +42,13 @@ public class TheDestroyer extends Player{
                 optimalMove[0] = move[0];
                 optimalMove[1] = move[1];
             }
+
             // Reset the move
             grid.resetCell(move[0], move[1]);
 
             // Reset moveCount
             game.decreaseMoveCount();
+
         }
         grid.setCell(optimalMove[0], optimalMove[1], symbol);
         game.increaseMoveCount();
@@ -56,59 +57,90 @@ public class TheDestroyer extends Player{
 
     public int minMax(PlayGrid grid, Player currentPlayer, Game game,
                       int[] move, int depth) {
+
+        // Score will hold the move's score if the game is ended
         int score;
-        ArrayList<int[]> availableMoves = new ArrayList<>(grid.getAvailableCells());
 
-
-
+        // Check if the last was a winning one. Remember, it was the currentPlayer's opponent who made that move.
         if(grid.checkWin(move[0], move [1], currentPlayer.opponentPlayer.symbol)) {
-
+            System.out.println("Last move: " + move[0] + " " + move[1] + " made by: " + currentPlayer.opponentPlayer.symbol);
             grid.printGrid();
+
+            // If the winning player was theDestroyer, set score to 10.
             if(currentPlayer.opponentPlayer == this) {
                 score = 10;
-            } else {
+            }
+            // If the winner was the opponent, set score to -10.
+            else {
                 score = -10;
             }
+            // Return the score
             return score;
-        } else if(game.getMoveCount() == grid.getSize() * grid.getSize()) {
+        }
+        // If there are no moves left, it is a draw and 0 is returned.
+        else if(game.getMoveCount() == grid.getSize() * grid.getSize()) {
             return 0;
         }
 
+        // Let's get the remaining free cells from the grid so we can loop through them.
+        ArrayList<int[]> availableMoves = new ArrayList<>(grid.getAvailableCells());
 
+        // If it is theDestroyer's turn
         if(currentPlayer == this) {
+            // We start by setting best score to very low...
             int best = -1000;
+
+            // Loop through the available moves
             for(int[] nextMove: availableMoves) {
+
+                // Make the move
                 grid.setCell(nextMove[0], nextMove[1], currentPlayer.symbol);
+                // Increase moveCount
                 game.increaseMoveCount();
 
+                // Call miniMax to get the best score for the move
                 int currentScore = minMax(grid, currentPlayer.opponentPlayer, game,
                         nextMove, depth + 1);
                 System.out.println("currentScore: " + currentScore);
+
+                // If the score is higher than the currently best score, set best to score.
                 if(currentScore > best) {
                     best = currentScore;
                 }
+                // Reset the move
                 grid.resetCell(nextMove[0], nextMove[1]);
+                // Reset moveCount
                 game.decreaseMoveCount();
             }
-            return best;
-        } else {
-            int best = 1000;
-            for(int[] nextMove: availableMoves) {
-                grid.setCell(nextMove[0], nextMove[1], currentPlayer.symbol);
-                game.increaseMoveCount();
-                currentPlayer = this;
-                int currentScore = minMax(grid, currentPlayer.opponentPlayer, game,
-                        nextMove, depth + 1);
-                if(currentScore < best) {
-                    best = currentScore;
-                }
-                grid.resetCell(nextMove[0], nextMove[1]);
-                game.decreaseMoveCount();
-            }
+            // Return the highest score
             return best;
         }
 
+        // If it is the opponent's turn
+        else {
+            // Set best to a high value
+            int best = 1000;
+            // Loop through the available moves
+            for(int[] nextMove: availableMoves) {
+                // Make the move
+                grid.setCell(nextMove[0], nextMove[1], currentPlayer.symbol);
+                // Increase moveCount
+                game.increaseMoveCount();
 
-
+                // Call miniMax to get the lowest score for the move
+                int currentScore = minMax(grid, currentPlayer.opponentPlayer, game,
+                        nextMove, depth + 1);
+                // If the current score is lower than the best one, set best to currentScore
+                if(currentScore < best) {
+                    best = currentScore;
+                }
+                // Reset move
+                grid.resetCell(nextMove[0], nextMove[1]);
+                // Decrease moveCount
+                game.decreaseMoveCount();
+            }
+            // Return the lowest score
+            return best;
+        }
     }
 }
