@@ -1,6 +1,17 @@
 import java.util.ArrayList;
 
 public class TheDestroyer extends Player{
+    /*
+    Uses the miniMax algorithm to play a perfect game of tic-tac-toe.
+    A grid by the size of 3 x 3 is what my computer can handle; more than that and the complexity is too large.
+    I think it should be possible to optimize it, though. If we check for symmetry by flipping and rotating the board,
+    there are a lot of duplicate moves, especially the first one. By checking this, it should be possible to reduce
+    the runtime and maybe, MAYBE have a larger grid.
+    I read up on the miniMax algorithm on different places on internet, and especially this page helped me:
+    https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
+    It was written by Akshay L Aradhya, and if this works, it's because of their fine work.
+    If it doesn't, it's because I screwed up something.
+     */
     public TheDestroyer(String name, String symbol) {
         super(name + " The Destroyer", symbol);
     }
@@ -34,7 +45,6 @@ public class TheDestroyer extends Player{
 
             // For each move, call miniMax to get the score of the move
             int moveScore = minMax(grid, this.opponentPlayer, game, move, 0);
-            System.out.println("moveScore: " + moveScore + ", moveCount: " + game.getMoveCount());
 
             // check if the new score is better than the previous best one, if so, update optimalMove and bestScore
             if(moveScore > bestScore) {
@@ -63,16 +73,16 @@ public class TheDestroyer extends Player{
 
         // Check if the last was a winning one. Remember, it was the currentPlayer's opponent who made that move.
         if(grid.checkWin(move[0], move [1], currentPlayer.opponentPlayer.symbol)) {
-            System.out.println("Last move: " + move[0] + " " + move[1] + " made by: " + currentPlayer.opponentPlayer.symbol);
-            grid.printGrid();
 
-            // If the winning player was theDestroyer, set score to 10.
+            // If the winning player was theDestroyer (the maximizer), set score to (number of cells +1) - depth
+            // This gives a faster win a higher score
             if(currentPlayer.opponentPlayer == this) {
-                score = 10;
+                score = (grid.getSize() * grid.getSize() + 1) - depth;
             }
-            // If the winner was the opponent, set score to -10.
+            // If the winner was the opponent (the minimizer), set score to -(number of cells + 1) + depth
+            // This gives a faster loss a lower score.
             else {
-                score = -10;
+                score = -(grid.getSize() * grid.getSize() + 1) + depth;
             }
             // Return the score
             return score;
@@ -101,7 +111,6 @@ public class TheDestroyer extends Player{
                 // Call miniMax to get the best score for the move
                 int currentScore = minMax(grid, currentPlayer.opponentPlayer, game,
                         nextMove, depth + 1);
-                System.out.println("currentScore: " + currentScore);
 
                 // If the score is higher than the currently best score, set best to score.
                 if(currentScore > best) {
