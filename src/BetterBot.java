@@ -3,9 +3,10 @@ import java.util.Random;
 
 public class BetterBot extends Player{
     /*
+    Subclass of the Player class.
     The Better Bot checks for winning moves, and to prevent the opponents winning moves.
     Doesn't work well on bigger boards, since all other moves are totally random. On a three-by-three grid,
-    however, it is a definitive improvement.
+    however, it is a definitive improvement. He also has a weak spot - can you find it and exploit it?
      */
     Random rand;
 

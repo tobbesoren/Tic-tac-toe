@@ -18,6 +18,13 @@ public class Main {
         -...or not!
         -Score keeping
         -Rock solid error handling(I hope!)
+        -----------------------------------------------
+        latest:
+        -New bots added:
+        -BetterBot, and
+        -UnbeatableBot(!!!)
+        -Make them battle it out...
+        -...or take them on yourself!
         */
 
         Game game = new Game();

@@ -1,6 +1,7 @@
 public class HumanPlayer extends Player {
     /*
-    Subclass of Player, used for human players, as the name implies.
+    Subclass of the Player class.
+    Used for human players, as the name implies.
     The method makeMove takes user input to add a symbol to the grid.
      */
     public HumanPlayer(String name, String symbol) {

@@ -1,6 +1,6 @@
 public abstract class Player {
     /*
-    The Player class is the parent class for HumanPlayer and TheDiceMan.
+    The Player class is the parent class for HumanPlayer, TheDiceMan, BetterBot and TheDestroyer.
     It defines variables to hold the players name, the symbol used on the board, and the accumulated score.
     It has methods for getting score and name, increasing score, and an abstract makeMove method which is defined in
     the subclasses.

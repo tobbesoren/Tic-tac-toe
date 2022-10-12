@@ -37,7 +37,6 @@ public class UserInput {
                 System.out.println("Please enter a single integer! Try again.");
             }
         }
-
     }
 
     public int[] coordinatesInput() {

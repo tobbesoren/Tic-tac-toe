@@ -112,7 +112,11 @@ public class Game {
         System.out.println("""
                    1. Human
                       or
-                   2. Bot
+                   2. The Dice Man
+                      or
+                   3. The Better Bot
+                      or
+                   4. The Destroyer
                       ?
                 -----------------------""");
 
@@ -128,10 +132,20 @@ public class Game {
                 }
                 case 2 -> {
                     System.out.println("Enter the bot's nickname:");
+                    newPlayer = new TheDiceMan(input.stringInput(), symbol);
+                    return newPlayer;
+                }
+                case 3 -> {
+                    System.out.println("Enter the bot's nickname:");
+                    newPlayer = new BetterBot(input.stringInput(), symbol);
+                    return newPlayer;
+                }
+                case 4 -> {
+                    System.out.println("Enter the bot's nickname:");
                     newPlayer = new TheDestroyer(input.stringInput(), symbol);
                     return newPlayer;
                 }
-                default -> System.out.println("Please enter 1 or 2! Nothing else. How hard could it be?");
+                default -> System.out.println("Please enter a single number between 1 and 4! Nothing else. How hard could it be?");
             }
         }
     }

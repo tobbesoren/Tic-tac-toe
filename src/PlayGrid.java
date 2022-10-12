@@ -139,7 +139,6 @@ public class PlayGrid {
         This means that the method is more effective on larger boards.
         */
 
-
         if(checkRow(row, column, symbol, 1, 0)) {//checks for vertical win
             return true;
 

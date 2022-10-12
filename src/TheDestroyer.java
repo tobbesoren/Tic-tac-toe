@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class TheDestroyer extends Player{
     /*
+    Subclass of the Player class.
     Uses the miniMax algorithm to play a perfect game of tic-tac-toe.
     A grid by the size of 3 x 3 is what my computer can handle; more than that and the complexity is too large.
     I think it should be possible to optimize it, though. If we check for symmetry by flipping and rotating the board,

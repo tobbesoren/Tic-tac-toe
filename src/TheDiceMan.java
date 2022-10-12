@@ -15,6 +15,7 @@ public class TheDiceMan extends Player{
     @Override
     public int[] makeMove(PlayGrid grid, UserInput input, Game game) {
         /*
+        Subclass of the Player class.
         The bot randomly selects a move from the available cells, calling grid.availableCells().
         Returns the coordinates as an array of ints.
         */
