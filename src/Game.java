@@ -68,38 +68,46 @@ public class Game {
         playerOne.setOpponentPlayer(playerTwo);
         playerTwo.setOpponentPlayer(playerOne);
 
-        System.out.println("Enter playing board size (a number between 3 and 15): ");
-
-        boolean wrongInput = true;
         int size;
-
-        do {
-            size = input.intInput();
-            if(size  >= 3 && size <= 15) {
-                wrongInput = false;
-            } else {
-                System.out.println("I think I told you to enter a number between 3 and 15!? Try again.");
-            }
-        } while(wrongInput);
-
-
         int winningRowLength;
+        boolean wrongInput = true;
 
-        if(size == 3) {
-            winningRowLength = 3;
+        // TheDestroyer is a conservative bot; it only plays classic three-by-three tic-tac-toe
+        if(playerOne instanceof TheDestroyer || playerTwo instanceof TheDestroyer) {
+            size = 3;
         } else {
-            System.out.println("Enter how many symbols in a row is needed to win (a number between 3 and " + size + "):");
-            wrongInput = true;
+            // We other may choose play field size
+            System.out.println("Enter playing board size (a number between 3 and 15): ");
 
             do {
-                winningRowLength = input.intInput();
-                if (winningRowLength >= 3 && winningRowLength <= size) {
+                size = input.intInput();
+                if (size >= 3 && size <= 15) {
                     wrongInput = false;
                 } else {
-                    System.out.println("*Sigh* Try again. A number between 3 and " + size + ", please.");
+                    System.out.println("I think I told you to enter a number between 3 and 15!? Try again.");
                 }
             } while (wrongInput);
         }
+
+
+            // when grid size is 3, winningRowLength is also set to 3.
+            if (size == 3) {
+                winningRowLength = 3;
+            } else {
+                // With a bigger board, the user get to choose
+                System.out.println("Enter how many symbols in a row is needed to win (a number between 3 and " + size + "):");
+                wrongInput = true;
+
+                do {
+                    winningRowLength = input.intInput();
+                    if (winningRowLength >= 3 && winningRowLength <= size) {
+                        wrongInput = false;
+                    } else {
+                        System.out.println("*Sigh* Try again. A number between 3 and " + size + ", please.");
+                    }
+                } while (wrongInput);
+            }
+
 
         initGrid(size, winningRowLength);
 
