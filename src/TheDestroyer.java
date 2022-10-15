@@ -13,6 +13,7 @@ public class TheDestroyer extends Player{
     It was written by Akshay L Aradhya, and if this works, it's because of their fine work.
     If it doesn't, it's because I screwed up something.
      */
+    static int count = 0;
     public TheDestroyer(String name, String symbol) {
         super(name + " The Destroyer", symbol);
     }
@@ -45,7 +46,8 @@ public class TheDestroyer extends Player{
             game.increaseMoveCount();
 
             // For each move, call miniMax to get the score of the move
-            int moveScore = minMax(grid, this.opponentPlayer, game, move, 0);
+            // Depth: this level is considered 0, so the next one is 1.
+            int moveScore = minMax(grid, this.opponentPlayer, game, move, 1);
 
             // check if the new score is better than the previous best one, if so, update optimalMove and bestScore
             if(moveScore > bestScore) {
@@ -61,6 +63,8 @@ public class TheDestroyer extends Player{
             game.decreaseMoveCount();
 
         }
+        System.out.println("Number of recursive calls: " + count);
+        count = 0;
         grid.setCell(optimalMove[0], optimalMove[1], symbol);
         game.increaseMoveCount();
         return optimalMove;
@@ -71,19 +75,21 @@ public class TheDestroyer extends Player{
 
         // Score will hold the move's score if the game is ended
         int score;
+        // Counting how many recursive calls are made. I have a feeling it's to many?
+        count++;
 
         // Check if the last was a winning one. Remember, it was the currentPlayer's opponent who made that move.
         if(grid.checkWin(move[0], move [1], currentPlayer.opponentPlayer.symbol)) {
 
-            // If the winning player was theDestroyer (the maximizer), set score to (number of cells +1) - depth
+            // If the winning player was theDestroyer (the maximizer), set score to (number of cells) - depth
             // This gives a faster win a higher score
             if(currentPlayer.opponentPlayer == this) {
-                score = (grid.getSize() * grid.getSize() + 1) - depth;
+                score = (grid.getSize() * grid.getSize()) - depth;
             }
-            // If the winner was the opponent (the minimizer), set score to -(number of cells + 1) + depth
+            // If the winner was the opponent (the minimizer), set score to -(number of cells) + depth
             // This gives a faster loss a lower score.
             else {
-                score = -(grid.getSize() * grid.getSize() + 1) + depth;
+                score = -(grid.getSize() * grid.getSize()) + depth;
             }
             // Return the score
             return score;
@@ -92,14 +98,20 @@ public class TheDestroyer extends Player{
         else if(game.getMoveCount() == grid.getSize() * grid.getSize()) {
             return 0;
         }
+        // Here we can set maximum depth searched, (0 - (number of cells - 1). For science! Set it to 8 for 3x3 grids.
+        // (Or comment out!)
+        else if(depth > 8) {
+            return 0;
+        }
 
-        // Let's get the remaining free cells from the grid so we can loop through them.
+        // Let's get the remaining free cells from the grid so that we can loop through them.
         ArrayList<int[]> availableMoves = new ArrayList<>(grid.getAvailableCells());
 
         // If it is theDestroyer's turn
+        int best;
         if(currentPlayer == this) {
             // We start by setting best score to very low...
-            int best = -1000;
+            best = -1000;
 
             // Loop through the available moves
             for(int[] nextMove: availableMoves) {
@@ -123,13 +135,12 @@ public class TheDestroyer extends Player{
                 game.decreaseMoveCount();
             }
             // Return the highest score
-            return best;
         }
 
         // If it is the opponent's turn
         else {
             // Set best to a high value
-            int best = 1000;
+            best = 1000;
             // Loop through the available moves
             for(int[] nextMove: availableMoves) {
                 // Make the move
@@ -150,7 +161,7 @@ public class TheDestroyer extends Player{
                 game.decreaseMoveCount();
             }
             // Return the lowest score
-            return best;
         }
+        return best;
     }
 }

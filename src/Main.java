@@ -17,14 +17,14 @@ public class Main {
         -Play again...
         -...or not!
         -Score keeping
-        -Rock solid error handling(I hope!)
+        -Rock solid error handling (I hope!)
         -----------------------------------------------
         latest:
         -New bots added:
         -BetterBot, and
         -UnbeatableBot(!!!)
         -Make them battle it out...
-        -...or take them on yourself!
+        -...or take them on by yourself!
         */
 
         Game game = new Game();
